@@ -3,6 +3,7 @@ import { usePlayer } from "@/context/PlayerContext";
 import { SongCard } from "@/components/SongCard";
 import { Heart } from "lucide-react";
 import { Song } from "@/data/songs";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function Library() {
   const { likedSongs } = usePlayer();
@@ -14,7 +15,7 @@ export default function Library() {
       return;
     }
     
-    fetch("http://localhost:5000/api/songs_by_ids", {
+    fetch(`${API_BASE_URL}/api/songs_by_ids`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ ids: likedSongs })
