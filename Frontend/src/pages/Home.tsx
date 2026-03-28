@@ -5,6 +5,7 @@ import { RecommendationList } from "@/components/RecommendationList";
 import { NowPlayingCard } from "@/components/NowPlayingCard";
 import { Navbar } from "@/components/Navbar";
 import { Song } from "@/data/songs";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function Home() {
   const { currentSong } = usePlayer();
@@ -19,7 +20,7 @@ export default function Home() {
     
     if (!searchQuery) {
         // Load default popular catalog
-        fetch("http://localhost:5000/api/songs?limit=60")
+        fetch(`${API_BASE_URL}/api/songs?limit=60`)
           .then((res) => res.json())
           .then((data) => {
             setSongs(data);
@@ -34,7 +35,7 @@ export default function Home() {
     
     // Perform dynamic global search on the backend across 230k tracks
     const timeoutId = setTimeout(() => {
-        fetch(`http://localhost:5000/api/search?q=${encodeURIComponent(searchQuery)}`)
+        fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(searchQuery)}`)
           .then((res) => res.json())
           .then((data) => {
             setSongs(data);
@@ -52,7 +53,7 @@ export default function Home() {
   // Fetch recommendations when current song changes
   useEffect(() => {
     if (currentSong) {
-      fetch(`http://localhost:5000/api/recommendations?song_title=${encodeURIComponent(currentSong.title)}&num_recs=8`)
+      fetch(`${API_BASE_URL}/api/recommendations?song_title=${encodeURIComponent(currentSong.title)}&num_recs=8`)
         .then((res) => res.json())
         .then((data) => setRecommendations(data))
         .catch((err) => console.error("Failed to fetch recommendations", err));

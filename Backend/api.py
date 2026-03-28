@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from recommender import MusicRecommender
+import os
 
 app = Flask(__name__)
 # Allow CORS so the React app running on a different port can fetch data
@@ -91,5 +92,6 @@ def get_recommendations():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    # Start the Flask development server on port 5000
-    app.run(port=5000, debug=False)
+    # Allow overriding the port for local environments where 5000 is unavailable.
+    port = int(os.environ.get("PORT", "5000"))
+    app.run(port=port, debug=False)

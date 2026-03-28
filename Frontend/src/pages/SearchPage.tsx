@@ -3,6 +3,7 @@ import { SongCard } from "@/components/SongCard";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Song } from "@/data/songs";
+import { API_BASE_URL } from "@/lib/api";
 
 export default function SearchPage() {
   const [query, setQuery] = useState("");
@@ -17,7 +18,7 @@ export default function SearchPage() {
     
     const timeoutId = setTimeout(() => {
       setIsLoading(true);
-      fetch(`http://localhost:5000/api/search?q=${encodeURIComponent(query)}`)
+      fetch(`${API_BASE_URL}/api/search?q=${encodeURIComponent(query)}`)
         .then(res => res.json())
         .then(data => {
           setResults(data);
